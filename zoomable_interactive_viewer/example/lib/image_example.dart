@@ -26,6 +26,7 @@ class _ImageExamplePageState extends State<ImageExamplePage> {
             child: ZoomableInteractiveViewer(
               enableAnimation: _enableAnimation,
               animationCurve: Curves.easeInOut,
+              enableZoomInMagnifier: true,
               minScale: _minScale,
               maxScale: _maxScale,
               child: Image.network(
