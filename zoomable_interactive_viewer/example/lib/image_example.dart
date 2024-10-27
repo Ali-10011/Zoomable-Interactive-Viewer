@@ -1,4 +1,3 @@
-// example/lib/image_example.dart
 import 'package:flutter/material.dart';
 import 'package:zoomable_interactive_viewer/zoomable_interactive_viewer.dart';
 
@@ -13,6 +12,9 @@ class _ImageExamplePageState extends State<ImageExamplePage> {
   double _minScale = 1.0;
   double _maxScale = 4.0;
   bool _enableAnimation = true;
+  double _doubleTapZoomScale = 2.0;
+  double _zoomInMagnifierScale = 1.5;
+  double _zoomOutMagnifierScale = 0.5;
 
   // Define the minimum difference between minScale and maxScale
   static const double _minScaleDifference = 0.1;
@@ -29,6 +31,9 @@ class _ImageExamplePageState extends State<ImageExamplePage> {
               enableZoomInMagnifier: true,
               minScale: _minScale,
               maxScale: _maxScale,
+              doubleTapZoomScale: _doubleTapZoomScale,
+              zoomInMagnifierScale: _zoomInMagnifierScale,
+              zoomOutMagnifierScale: _zoomOutMagnifierScale,
               child: Image.network(
                 'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg',
                 fit: BoxFit.cover,
@@ -69,10 +74,8 @@ class _ImageExamplePageState extends State<ImageExamplePage> {
                   onChanged: (value) {
                     setState(() {
                       _minScale = value;
-                      // Ensure maxScale is always greater than minScale
                       if (_maxScale <= _minScale + _minScaleDifference) {
                         _maxScale = _minScale + _minScaleDifference;
-                        // Optional: Clamp maxScale to a reasonable upper limit
                         if (_maxScale > 5.0) {
                           _maxScale = 5.0;
                           _minScale = _maxScale - _minScaleDifference;
@@ -91,17 +94,15 @@ class _ImageExamplePageState extends State<ImageExamplePage> {
               Expanded(
                 child: Slider(
                   value: _maxScale,
-                  min: 1.1, // Minimum maxScale is minScale + 0.1
+                  min: 1.1,
                   max: 5.0,
-                  divisions: 29, // (5.0 - 1.1) / 0.1 = 29
+                  divisions: 29,
                   label: _maxScale.toStringAsFixed(1),
                   onChanged: (value) {
                     setState(() {
                       _maxScale = value;
-                      // Ensure maxScale is always greater than minScale
                       if (_maxScale <= _minScale + _minScaleDifference) {
                         _minScale = _maxScale - _minScaleDifference;
-                        // Optional: Clamp minScale to a reasonable lower limit
                         if (_minScale < 1.0) {
                           _minScale = 1.0;
                           _maxScale = _minScale + _minScaleDifference;
@@ -112,6 +113,66 @@ class _ImageExamplePageState extends State<ImageExamplePage> {
                 ),
               ),
               Text(_maxScale.toStringAsFixed(1)),
+            ],
+          ),
+          Row(
+            children: [
+              const Text('Double Tap Zoom Scale:'),
+              Expanded(
+                child: Slider(
+                  value: _doubleTapZoomScale,
+                  min: 1.0,
+                  max: 4.0,
+                  divisions: 30,
+                  label: _doubleTapZoomScale.toStringAsFixed(1),
+                  onChanged: (value) {
+                    setState(() {
+                      _doubleTapZoomScale = value;
+                    });
+                  },
+                ),
+              ),
+              Text(_doubleTapZoomScale.toStringAsFixed(1)),
+            ],
+          ),
+          Row(
+            children: [
+              const Text('Zoom In Magnifier Scale:'),
+              Expanded(
+                child: Slider(
+                  value: _zoomInMagnifierScale,
+                  min: 1.0,
+                  max: 3.0,
+                  divisions: 20,
+                  label: _zoomInMagnifierScale.toStringAsFixed(1),
+                  onChanged: (value) {
+                    setState(() {
+                      _zoomInMagnifierScale = value;
+                    });
+                  },
+                ),
+              ),
+              Text(_zoomInMagnifierScale.toStringAsFixed(1)),
+            ],
+          ),
+          Row(
+            children: [
+              const Text('Zoom Out Magnifier Scale:'),
+              Expanded(
+                child: Slider(
+                  value: _zoomOutMagnifierScale,
+                  min: 0.1,
+                  max: 1.0,
+                  divisions: 9,
+                  label: _zoomOutMagnifierScale.toStringAsFixed(1),
+                  onChanged: (value) {
+                    setState(() {
+                      _zoomOutMagnifierScale = value;
+                    });
+                  },
+                ),
+              ),
+              Text(_zoomOutMagnifierScale.toStringAsFixed(1)),
             ],
           ),
         ],
