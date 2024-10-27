@@ -81,10 +81,10 @@ class ZoomableInteractiveViewer extends StatefulWidget {
 
   @override
   State<ZoomableInteractiveViewer> createState() =>
-      _ZoomableInteractiveViewerState();
+      ZoomableInteractiveViewerState();
 }
 
-class _ZoomableInteractiveViewerState extends State<ZoomableInteractiveViewer>
+class ZoomableInteractiveViewerState extends State<ZoomableInteractiveViewer>
     with SingleTickerProviderStateMixin {
   late TransformationController _transformationController;
   late ValueNotifier<bool> _isZoomed;
@@ -92,6 +92,15 @@ class _ZoomableInteractiveViewerState extends State<ZoomableInteractiveViewer>
   late AnimationController _animationController;
   Animation<Matrix4>? _animation;
   final GlobalKey _widgetKey = GlobalKey();
+
+  // Getters for accessing private members in tests
+  TransformationController get transformationController =>
+      _transformationController;
+  ValueNotifier<bool> get isZoomed => _isZoomed;
+  TapDownDetails? get doubleTapDetails => _doubleTapDetails;
+  AnimationController get animationController => _animationController;
+  Animation<Matrix4>? get animation => _animation;
+  bool handlePanStatus(bool isZoomed) => _handlePanStatus(isZoomed);
 
   @override
   void initState() {
@@ -140,8 +149,8 @@ class _ZoomableInteractiveViewerState extends State<ZoomableInteractiveViewer>
               onDoubleTap: _handleDoubleTap,
               child: SizedBox(
                 key: _widgetKey,
-                height: MediaQuery.of(context).size.height,
                 child: InteractiveViewer(
+                  
                   transformationController: _transformationController,
                   boundaryMargin: widget.boundaryMargin,
                   minScale: widget.minScale,

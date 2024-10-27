@@ -26,7 +26,7 @@ class ZoomDemoHomePage extends StatefulWidget {
   const ZoomDemoHomePage({Key? key}) : super(key: key);
 
   @override
-  _ZoomDemoHomePageState createState() => _ZoomDemoHomePageState();
+  State<ZoomDemoHomePage> createState() => _ZoomDemoHomePageState();
 }
 
 class _ZoomDemoHomePageState extends State<ZoomDemoHomePage> {
