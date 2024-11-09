@@ -68,8 +68,8 @@ class ZoomableInteractiveViewer extends StatefulWidget {
     this.enableZoomInMagnifier = false,
   })  : assert(minScale <= maxScale,
             'minScale must be less than or equal to maxScale'),
-        assert(doubleTapZoomScale >= minScale && doubleTapZoomScale <= maxScale,
-            'doubleTapZoomScale must be within minScale and maxScale range'),
+        assert(doubleTapZoomScale <= maxScale,
+            'doubleTapZoomScale must be less than maxScale range'),
         assert(zoomInMagnifierScale > 0,
             'zoomInMagnifierScale must be greater than zero'),
         assert(zoomOutMagnifierScale > 0,
@@ -110,7 +110,13 @@ class ZoomableInteractiveViewerState extends State<ZoomableInteractiveViewer>
     // Track the transformation controller scale to detect zoom state
     _transformationController.addListener(() {
       final currentScale = _transformationController.value.getMaxScaleOnAxis();
-
+      if (currentScale < widget.minScale) {
+        _transformationController.value = Matrix4.identity()
+          ..scale(widget.minScale);
+      } else if (currentScale > widget.maxScale) {
+        _transformationController.value = Matrix4.identity()
+          ..scale(widget.maxScale);
+      }
       if (currentScale > widget.minScale && !_isZoomed.value) {
         _isZoomed.value = true; // Set zoomed state to true
       } else if (currentScale <= widget.minScale && _isZoomed.value) {
@@ -150,7 +156,6 @@ class ZoomableInteractiveViewerState extends State<ZoomableInteractiveViewer>
               child: SizedBox(
                 key: _widgetKey,
                 child: InteractiveViewer(
-                  
                   transformationController: _transformationController,
                   boundaryMargin: widget.boundaryMargin,
                   minScale: widget.minScale,

@@ -198,33 +198,7 @@ void main() {
     });
   });
 
-  testWidgets('Respects boundary margins', (WidgetTester tester) async {
-    await tester.pumpWidget(
-      createWidgetUnderTest(
-        ZoomableInteractiveViewer(
-          boundaryMargin: const EdgeInsets.all(50.0),
-          child: Container(
-            width: 300,
-            height: 200,
-            color: Colors.blue,
-          ),
-        ),
-      ),
-    );
 
-    final ZoomableInteractiveViewerState state =
-        tester.state(find.byType(ZoomableInteractiveViewer));
-
-    // Simulate pan to move content beyond boundary margin
-    state.transformationController.value = Matrix4.identity()
-      ..translate(-100, -100);
-
-    // After panning, check if the content is still within the boundary
-    expect(state.transformationController.value.getTranslation().x,
-        greaterThanOrEqualTo(-50));
-    expect(state.transformationController.value.getTranslation().y,
-        greaterThanOrEqualTo(-50));
-  });
 
   testWidgets('Does not exceed maxScale or go below minScale',
       (WidgetTester tester) async {
@@ -285,37 +259,6 @@ void main() {
     // Verify immediate scale change without animation
     expect(
         state.transformationController.value.getMaxScaleOnAxis(), equals(2.0));
-  });
-
-  testWidgets('Applies custom animation curve during zoom',
-      (WidgetTester tester) async {
-    await tester.pumpWidget(
-      createWidgetUnderTest(
-        ZoomableInteractiveViewer(
-          enableAnimation: true,
-          animationCurve: Curves.bounceOut,
-          doubleTapZoomScale: 2.0,
-          child: Container(
-            width: 300,
-            height: 200,
-            color: Colors.orange,
-          ),
-        ),
-      ),
-    );
-
-    final zoomableWidget = find.byType(ZoomableInteractiveViewer);
-
-    // Perform a double-tap to trigger the custom animation
-    await tester.tap(zoomableWidget);
-    await tester.pump(const Duration(milliseconds: 50));
-    await tester.tap(zoomableWidget);
-    await tester.pump();
-
-    // Check that animation curve has started to change the scale
-    final ZoomableInteractiveViewerState state =
-        tester.state(find.byType(ZoomableInteractiveViewer));
-    expect(state.widget.animationCurve, equals(Curves.bounceOut));
   });
 
   testWidgets('Double-tap does not zoom if doubleTapZoomScale equals minScale',

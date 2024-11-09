@@ -58,134 +58,148 @@ class _ListExamplePageState extends State<ListExamplePage> {
 
   // Controls for adjusting zoom parameters
   Widget _buildControls() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        children: [
-          SwitchListTile(
-            title: const Text('Enable Animation'),
-            value: _enableAnimation,
-            onChanged: (value) {
-              setState(() {
-                _enableAnimation = value;
-              });
-            },
-          ),
-          Row(
-            children: [
-              const Text('Min Scale:'),
-              Expanded(
-                child: Slider(
-                  value: _minScale,
-                  min: 1.0,
-                  max: 3.0,
-                  divisions: 20,
-                  label: _minScale.toStringAsFixed(1),
-                  onChanged: (value) {
-                    setState(() {
-                      _minScale = value;
-                      if (_maxScale <= _minScale + _minScaleDifference) {
-                        _maxScale = _minScale + _minScaleDifference;
-                        if (_maxScale > 5.0) {
-                          _maxScale = 5.0;
-                          _minScale = _maxScale - _minScaleDifference;
-                        }
-                      }
-                    });
-                  },
-                ),
-              ),
-              Text(_minScale.toStringAsFixed(1)),
-            ],
-          ),
-          Row(
-            children: [
-              const Text('Max Scale:'),
-              Expanded(
-                child: Slider(
-                  value: _maxScale,
-                  min: 1.1,
-                  max: 5.0,
-                  divisions: 29,
-                  label: _maxScale.toStringAsFixed(1),
-                  onChanged: (value) {
-                    setState(() {
-                      _maxScale = value;
-                      if (_maxScale <= _minScale + _minScaleDifference) {
-                        _minScale = _maxScale - _minScaleDifference;
-                        if (_minScale < 1.0) {
-                          _minScale = 1.0;
+    return SizedBox(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            SwitchListTile(
+              title: const Text('Enable Animation'),
+              value: _enableAnimation,
+              onChanged: (value) {
+                setState(() {
+                  _enableAnimation = value;
+                });
+              },
+            ),
+            Row(
+              children: [
+                const Text('Min Scale:'),
+                Expanded(
+                  child: Slider(
+                    value: _minScale,
+                    min: 1.0,
+                    max: 3.0,
+                    divisions: 20,
+                    label: _minScale.toStringAsFixed(1),
+                    onChanged: (value) {
+                      setState(() {
+                        _minScale = value;
+                        if (_maxScale <= _minScale + _minScaleDifference) {
                           _maxScale = _minScale + _minScaleDifference;
+                          if (_maxScale > 5.0) {
+                            _maxScale = 5.0;
+                            _minScale = _maxScale - _minScaleDifference;
+                          }
                         }
-                      }
-                    });
-                  },
+                      });
+                    },
+                  ),
                 ),
-              ),
-              Text(_maxScale.toStringAsFixed(1)),
-            ],
-          ),
-          Row(
-            children: [
-              const Text('Double Tap Zoom Scale:'),
-              Expanded(
-                child: Slider(
-                  value: _doubleTapZoomScale,
-                  min: 1.0,
-                  max: 5.0,
-                  divisions: 40,
-                  label: _doubleTapZoomScale.toStringAsFixed(1),
-                  onChanged: (value) {
-                    setState(() {
-                      _doubleTapZoomScale = value;
-                    });
-                  },
+                Text(_minScale.toStringAsFixed(1)),
+              ],
+            ),
+            Row(
+              children: [
+                const Text('Max Scale:'),
+                Expanded(
+                  child: Slider(
+                    value: _maxScale,
+                    min: 1.1,
+                    max: 5.0,
+                    divisions: 29,
+                    label: _maxScale.toStringAsFixed(1),
+                    onChanged: (value) {
+                      setState(() {
+                        _maxScale = value;
+
+                        if (_maxScale <=
+                            _doubleTapZoomScale + _minScaleDifference) {
+                          _doubleTapZoomScale = _maxScale - _minScaleDifference;
+                        }
+
+                        if (_maxScale <= _minScale + _minScaleDifference) {
+                          _minScale = _maxScale - _minScaleDifference;
+                          if (_minScale < 1.0) {
+                            _minScale = 1.0;
+                            _maxScale = _minScale + _minScaleDifference;
+                          }
+                        }
+                      });
+                    },
+                  ),
                 ),
-              ),
-              Text(_doubleTapZoomScale.toStringAsFixed(1)),
-            ],
-          ),
-          Row(
-            children: [
-              const Text('Zoom In Magnifier Scale:'),
-              Expanded(
-                child: Slider(
-                  value: _zoomInMagnifierScale,
-                  min: 1.0,
-                  max: 3.0,
-                  divisions: 20,
-                  label: _zoomInMagnifierScale.toStringAsFixed(1),
-                  onChanged: (value) {
-                    setState(() {
-                      _zoomInMagnifierScale = value;
-                    });
-                  },
+                Text(_maxScale.toStringAsFixed(1)),
+              ],
+            ),
+            Row(
+              children: [
+                const Text('Double Tap Zoom Scale:'),
+                Expanded(
+                  child: Slider(
+                    value: _doubleTapZoomScale,
+                    min: 1.0,
+                    max: 4.0,
+                    divisions: 30,
+                    label: _doubleTapZoomScale.toStringAsFixed(1),
+                    onChanged: (value) {
+                      setState(() {
+                       
+                        _doubleTapZoomScale = value;
+
+                        if (_maxScale <=
+                            _doubleTapZoomScale + _minScaleDifference) {
+                          _maxScale = _doubleTapZoomScale + _minScaleDifference;
+                        }
+                      });
+                    },
+                  ),
                 ),
-              ),
-              Text(_zoomInMagnifierScale.toStringAsFixed(1)),
-            ],
-          ),
-          Row(
-            children: [
-              const Text('Zoom Out Magnifier Scale:'),
-              Expanded(
-                child: Slider(
-                  value: _zoomOutMagnifierScale,
-                  min: 0.5,
-                  max: 1.5,
-                  divisions: 20,
-                  label: _zoomOutMagnifierScale.toStringAsFixed(1),
-                  onChanged: (value) {
-                    setState(() {
-                      _zoomOutMagnifierScale = value;
-                    });
-                  },
+                Text(_doubleTapZoomScale.toStringAsFixed(1)),
+              ],
+            ),
+            Row(
+              children: [
+                const Text('Zoom In Magnifier Scale:'),
+                Expanded(
+                  child: Slider(
+                    value: _zoomInMagnifierScale,
+                    min: 1.0,
+                    max: 3.0,
+                    divisions: 20,
+                    label: _zoomInMagnifierScale.toStringAsFixed(1),
+                    onChanged: (value) {
+                      setState(() {
+                        _zoomInMagnifierScale = value;
+                      });
+                    },
+                  ),
                 ),
-              ),
-              Text(_zoomOutMagnifierScale.toStringAsFixed(1)),
-            ],
-          ),
-        ],
+                Text(_zoomInMagnifierScale.toStringAsFixed(1)),
+              ],
+            ),
+            Row(
+              children: [
+                const Text('Zoom Out Magnifier Scale:'),
+                Expanded(
+                  child: Slider(
+                    value: _zoomOutMagnifierScale,
+                    min: 0.1,
+                    max: 1.0,
+                    divisions: 9,
+                    label: _zoomOutMagnifierScale.toStringAsFixed(1),
+                    onChanged: (value) {
+                      setState(() {
+                        _zoomOutMagnifierScale = value;
+                      });
+                    },
+                  ),
+                ),
+                Text(_zoomOutMagnifierScale.toStringAsFixed(1)),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

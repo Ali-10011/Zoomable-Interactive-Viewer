@@ -25,15 +25,20 @@ class _ImageExamplePageState extends State<ImageExamplePage> {
       body: Column(
         children: [
           Expanded(
-            child: ZoomableInteractiveViewer(
-       
-              child: Container(
-                width: 500,
-                height: 300,
-                color: Colors.black,
-              ),
+              child: ZoomableInteractiveViewer(
+            enableAnimation: _enableAnimation,
+            animationCurve: Curves.easeInOut,
+            enableZoomInMagnifier: true,
+            minScale: _minScale,
+            maxScale: _maxScale,
+            doubleTapZoomScale: _doubleTapZoomScale,
+            zoomInMagnifierScale: _zoomInMagnifierScale,
+            zoomOutMagnifierScale: _zoomOutMagnifierScale,
+            child: Image.network(
+              'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg',
+              fit: BoxFit.cover,
             ),
-          ),
+          )),
           _buildControls(),
         ],
       ),
@@ -96,6 +101,12 @@ class _ImageExamplePageState extends State<ImageExamplePage> {
                     onChanged: (value) {
                       setState(() {
                         _maxScale = value;
+
+                        if (_maxScale <=
+                            _doubleTapZoomScale + _minScaleDifference) {
+                          _doubleTapZoomScale = _maxScale - _minScaleDifference;
+                        }
+
                         if (_maxScale <= _minScale + _minScaleDifference) {
                           _minScale = _maxScale - _minScaleDifference;
                           if (_minScale < 1.0) {
@@ -123,6 +134,11 @@ class _ImageExamplePageState extends State<ImageExamplePage> {
                     onChanged: (value) {
                       setState(() {
                         _doubleTapZoomScale = value;
+
+                        if (_maxScale <=
+                            _doubleTapZoomScale + _minScaleDifference) {
+                          _maxScale = _doubleTapZoomScale + _minScaleDifference;
+                        }
                       });
                     },
                   ),
