@@ -1,11 +1,7 @@
 name: zoomable_interactive_viewer
-description: |
-  A customizable Flutter widget that provides interactive zoom and pan functionality. 
-  Ideal for applications that require detailed content viewing, such as image galleries, maps, or diagrams. 
-  It allows smooth zooming in, zooming out, and panning gestures, with optional features like double-tap zoom and zoom buttons.
-  The package is simple to integrate and flexible enough to support various content types, making it perfect for apps that need to display large or intricate visuals.
+description: A customizable Flutter widget that provides interactive zoom, pan functionality, and supports smooth zooming and panning for detailed content like images or listings.
 
-version: 0.0.1
+version: 0.0.2
 homepage: https://github.com/Ali-10011/Zoomable-Interactive-Viewer
 
 environment:
