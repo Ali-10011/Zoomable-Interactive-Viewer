@@ -5,6 +5,23 @@
 
 `ZoomableInteractiveViewer` is a customizable Flutter widget that provides interactive zoom and pan functionality. It allows users to smoothly zoom in, zoom out, and pan large content such as images or detailed graphics, with optional zoom buttons and double-tap zoom. This package is ideal for applications that need detailed content viewing, such as image galleries, maps, or diagrams.
 
+## Previews
+
+## Previews
+
+<table style="border-collapse: collapse; border: none;">
+  <tr>
+     <td align="center" style="border: none;">
+      <h4>Media Preview</h4>
+      <img src="https://github.com/user-attachments/assets/7d679141-5b46-428a-abf9-5dea455dbfe2" alt="Media Preview" width="320">
+    </td>
+      <td align="center" style="border: none;">
+      <h4>Listing Preview</h4>
+      <img src="https://github.com/user-attachments/assets/3ce9b632-a3a1-484d-8635-ef04e3be0deb" alt="Listing Preview" width="320">
+    </td>
+  </tr>
+</table>
+
 
 ## Getting started
 
